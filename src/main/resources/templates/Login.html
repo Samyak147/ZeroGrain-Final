@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroGrain - Login</title>
+    <link rel="icon" type="image/x-icon" href="/zerograin_logo.png">
+    <!-- Added Font Awesome CSS link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="style_login.css">
+    <link rel="icon" type="image/x-icon" href="/zerograin_logo.png">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Welcome to ZeroGrain</h1>
+                <p>Please login to continue</p>
+            </div>
+
+            <div class="role-selector">
+                <button class="role-btn active" onclick="switchForm('donor')">Donor</button>
+                <button class="role-btn" onclick="switchForm('ngo')">NGO</button>
+                <button class="role-btn" onclick="switchForm('admin')">Admin</button>
+            </div>
+
+            <!-- Donor Login Form -->
+            <form th:action="@{/donor/login}" th:object="${donorlogin}" method="post" class="login-form active"
+                id="donor-form">
+                <div class="login-icon donor-icon"><i class='fas fa-user-alt'></i></div>
+                <div class="form-group">
+                    <label for="donorEmail">Email Address</label>
+                    <input type="email" class="form-control" id="donorEmail" name="email" required
+                        placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="donorPassword">Password</label>
+                    <div class="password-field">
+                        <input type="password" class="form-control" id="donorPassword" name="password" required
+                            placeholder="Enter your password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('donorPassword', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Donor Login</button>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" th:href="@{/join_donor}">Register</a></p>
+                    <p><a href="#" th:href="@{/donor/forgot-password}">Forgot password?</a></p>
+                </div>
+            </form>
+
+            <!-- NGO Login Form -->
+            <form th:action="@{/ngo/login}" th:object="${ngologin}" method="post" class="login-form" id="ngo-form">
+                <div class="login-icon donor-icon"><i class='fas fa-globe'></i></div>
+                <div class="form-group">
+                    <label for="ngoEmail">NGO Email Address</label>
+                    <input type="email" class="form-control" id="ngoEmail" name="email" required
+                        placeholder="Enter NGO email">
+                </div>
+                <div class="form-group">
+                    <label for="ngoPassword">Password</label>
+                    <div class="password-field">
+                        <input type="password" class="form-control" id="ngoPassword" name="password" required
+                            placeholder="Enter NGO password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('ngoPassword', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="form-group">
+                    <label for="ngoId">NGO Registration ID</label>
+                    <input type="text" class="form-control" id="ngoId" name="ngoId" required placeholder="Enter NGO ID">
+                </div> -->
+                <button type="submit" class="btn-primary">NGO Login</button>
+                <div class="form-footer">
+                    <p>Not registered yet? <a href="#" th:href="@{/join_ngo}">Register your NGO</a></p>
+                    <p><a href="#" th:href="@{/ngo/forgot-password}">Forgot password?</a></p>
+                </div>
+            </form>
+
+            <!-- Admin Login Form -->
+            <form th:action="@{/admin/login}" th:object="${adminlogin}" method="post" class="login-form"
+                id="admin-form">
+                <div class="login-icon admin-icon"><i class='fas fa-user-lock'></i></div>
+                <div class="form-group">
+                    <label for="adminUsername">Admin Username</label>
+                    <input type="text" class="form-control" id="adminUsername" name="username" required
+                        placeholder="Enter admin username">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <div class="password-field">
+                        <input type="password" class="form-control" id="adminPassword" name="password" required
+                            placeholder="Enter admin password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('adminPassword', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="adminSecurityCode">Security Code</label>
+                    <div class="password-field">
+                        <input type="password" class="form-control" id="adminSecurityCode" name="security_code" required
+                            placeholder="Enter admin security code">
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('adminSecurityCode', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Admin Login</button>
+                <div class="form-footer">
+                    <p><a href="#" th:href="@{/admin/forgot-password}">Forgot password?</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        let loginError = /*[[${loginError}]]*/ null;
+        if (loginError) {
+            alert(loginError);
+        }
+        function switchForm(role) {
+            // Hide all forms
+            document.querySelectorAll('.login-form').forEach(form => {
+                form.classList.remove('active');
+            });
+
+            // Deactivate all buttons
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected form
+            document.getElementById(role + '-form').classList.add('active');
+
+            // Activate selected button
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                if (btn.textContent.toLowerCase() === role) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Added togglePassword function from signup page
+        function togglePassword(inputId, iconButton) {
+            const passwordInput = document.getElementById(inputId);
+            const iconElement = iconButton.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                iconElement.classList.remove("fa-eye");
+                iconElement.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = 'password';
+                iconElement.classList.remove("fa-eye-slash");
+                iconElement.classList.add("fa-eye");
+            }
+        }
+
+        //     <!-- Show alert if login fails -->
+        //     <script th:if="${loginError != null}">
+        //         alert([[${loginError}]]);
+
+    </script>
+</body>
+
+</html>

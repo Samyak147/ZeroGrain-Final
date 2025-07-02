@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroGrain - Donor Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="/style_donor.css">
+    <link rel="icon" type="image/x-icon" href="/zerograin_logo.png">
+
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" onclick="closeSidebar()"></div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>ZeroGrain</h2>
+            <p>Food Waste Utilization</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-donate"></i>
+                <span>Donate Food</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Donation History</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-utensils"></i>
+                <span>Available Food</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-handshake"></i>
+                <span>Partner NGOs</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Impact Stats</span>
+            </div>
+            <div class="menu-item">
+                <i class="fa fa-sign-out" ></i>
+                <span> <a href="/" style="text-decoration: none; color: white;">Logout</a></span>
+            </div>
+        </div>
+        
+        <div class="sidebar-stats">
+            <h3>REAL-TIME STATS</h3>
+            <div class="stat-item">
+                <span>Food Donated Today</span>
+                <span class="stat-value">20 meals</span>
+            </div>
+            <div class="stat-item">
+                <span>Active NGOs</span>
+                <span class="stat-value">18</span>
+            </div>
+            <div class="stat-item">
+                <span>People Benefited</span>
+                <span class="stat-value">200</span>
+            </div>
+            <div class="stat-item">
+                <span>Total Donations</span>
+                <span class="stat-value">1000</span>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Donor Dashboard</h1>
+            <div class="user-info">
+                <div class="user-avatar">ZG</div>
+                <div>
+                    <h3>ZeroGrain</h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+            <div class="dashboard-card">
+                <div class="card-icon food-icon">
+                    <i class="fas fa-apple-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>1000</h3>
+                    <p>Total Donations Made</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-card">
+                <div class="card-icon ngo-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="card-content">
+                    <h3>20</h3>
+                    <p>Registered NGOs</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-card">
+                <div class="card-icon impact-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-content">
+                    <h3>100</h3>
+                    <p>People Helped</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Donation button -->
+        <div class="form-container">
+            <button class="form-buttons btn">
+                <a href="/donor/donate">Donate Now</a>
+            </button>
+        </div>
+        
+        <!-- NGO List from Database -->
+        <div class="ngo-list">
+            <h2>Partner NGOs</h2>
+            <div class="table-container">
+                <table class="ngo-table">
+                    <thead>
+                        <tr>
+                            <th>NGO Name</th>
+                            <th>Area</th>
+                            <th>Food Required</th>
+                            <th>Capacity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Thymeleaf Loop to Iterate Over NGOs from Database -->
+                        <tr th:each="ngo : ${ngoList}">
+                            <td th:text="${ngo.name}">Helping Hands</td>
+                            <td th:text="${ngo.area}">Vijaynagar</td>
+                            <td th:text="${ngo.foodRequirement}">Cooked Food</td>
+                            <td th:text="${ngo.capacity} + ' kg'">25 kg</td>
+                            <td>
+                                <span class="ngo-status" 
+                                      th:class="${ngo.status == 'Active'} ? 'ngo-status status-active' : 'ngo-status status-pending'"
+                                      th:text="${ngo.status}">Active</span>
+                            </td>
+                        </tr>
+                        
+                        <!-- Static Data for Preview -->
+                        <tr>
+                            <td>Dashrath Sevashram</td>
+                            <td>Temple main road annapurna road, indore</td>
+                            <td>Cooked Food</td>
+                            <td>25 kg</td>
+                            <td><span class="ngo-status status-active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Narayan Seva Sansthan</td>
+                            <td>CL-16, Royal banglow road, indore</td>
+                            <td>Raw Food</td>
+                            <td>50 kg</td>
+                            <td><span class="ngo-status status-active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Care Foundation</td>
+                            <td>MR10</td>
+                            <td>Packed Food</td>
+                            <td>30 kg</td>
+                            <td><span class="ngo-status status-active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Hope Society</td>
+                            <td>Bapat</td>
+                            <td>Any Type</td>
+                            <td>40 kg</td>
+                            <td><span class="ngo-status status-pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>Smile Foundation</td>
+                            <td>Shukliya</td>
+                            <td>Cooked Food</td>
+                            <td>20 kg</td>
+                            <td><span class="ngo-status status-active">Active</span></td>
+                        </tr>
+                        <tr>
+                            <td>Community Helpers</td>
+                            <td>Gaurinagar</td>
+                            <td>Raw Food</td>
+                            <td>35 kg</td>
+                            <td><span class="ngo-status status-active">Active</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.mobile-overlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.mobile-overlay');
+            
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+        
+        // Close sidebar when clicking on menu items (for mobile)
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    closeSidebar();
+                }
+            });
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeSidebar();
+            }
+        });
+    </script>
+</body>
+</html>

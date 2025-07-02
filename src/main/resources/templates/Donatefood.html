@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroGrain - Donation form</title>
+    <link rel="icon" type="image/x-icon" href="/zerograin_logo.png">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+        }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .required::after {
+            content: "*";
+            color: red;
+            margin-left: 4px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ZeroGrain</h1>
+            <p>Help us reduce food waste and feed those in need</p>
+        </header>
+        
+        <div class="form-container">
+            <form id="donationForm" onsubmit="handleSubmit(event)" th:action="@{/donated_food}" th:object="${donatedfood}" method="post">
+                <div class="form-group">
+                    <label for="foodName" class="required">Food Name</label>
+                    <input type="text" id="foodName" name="foodname" placeholder="E.g., Rice, Dal, Bread, etc." required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="required">Meal Type</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="veg" th:filed="f_type" name="f_type" value="veg" required>
+                            <label for="veg">Vegetarian</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="nonVeg" th:filed="f_type" name="f_type" value="nonVeg">
+                            <label for="nonVeg">Non-Vegetarian</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="category" class="required">Select Category</label>
+                    <select id="category" th:filed="f_category" name="f_category" required>
+                        <option value="" disabled selected> </option>
+                        <option value="raw">Raw Food</option>
+                        <option value="cooked">Cooked Food</option>
+                        <option value="packed">Packed Food</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity" class="required">Quantity (per person)</label>
+                    <input type="number" id="quantity" th:filed="quantity" name="quantity" min="1" placeholder="Number of servings" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="equired">Email</label>
+                    <input type="email" id="email" th:filed="email" name="email" placeholder="Your email address" >
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="required">Phone Number</label>
+                    <input type="tel" id="phone" th:filed="phone" name="phone" placeholder="Your contact number" required maxlength="10" minlength="10">
+                </div>
+                
+                <div class="form-group">
+                    <label for="area" class="required">Pikup Area</label>
+                    <select id="area" th:filed="area" name="area" required>
+                        <option value="" disabled selected>Select your area</option>
+                        <option value="vijaynagar">Vijaynagar</option>
+                        <option value="lig">LIG</option>
+                        <option value="bapat">Bapat</option>
+                        <option value="shukliya">Shukliya</option>
+                        <option value="mr10">MR10</option>
+                        <option value="gaurinagar">Gaurinagar</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address" class="required">Complete Address</label>
+                    <textarea id="address" th:filed="address" name="address" rows="3" placeholder="Your complete address for pickup" required></textarea>
+                </div>
+                
+                <button type="submit">Donate</button>
+            </form>
+        </div>
+        
+        <footer>
+            <p>Thank you for your generosity! Your donation will help those in need.</p>
+        </footer>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            
+            // Show confirmation to user
+            alert('Thank you for your donation! We will contact you shortly to arrange pickup.');
+            
+            // Reset form
+            // document.getElementById('donationForm').reset();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroGrain - NGO Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="/style_ngo.css">
+    <link rel="icon" type="image/x-icon" href="/zerograin_logo.png">
+
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>ZeroGrain</h2>
+            <p>Food Waste Utilization</p>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-apple-alt"></i>
+                <span>Available Donations</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-history"></i>
+                <span>Accepted History</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-clock"></i>
+                <span>Scheduled Pickups</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-handshake"></i>
+                <span>Partner Donors</span>
+            </div>
+            <div class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Impact Stats</span>
+            </div>
+            <div class="menu-item">
+                <i class="fa fa-sign-out" ></i>
+                <span><a href="/" style="text-decoration: none; color: white;">Logout</a></span>
+            </div>
+        </div>
+        
+        <div class="sidebar-stats">
+            <h3>REAL-TIME STATS</h3>
+            <div class="stat-item">
+                <span>Food Received Today</span>
+                <span class="stat-value">15 kg</span>
+            </div>
+            <div class="stat-item">
+                <span>Active Donors</span>
+                <span class="stat-value">118</span>
+            </div>
+            <div class="stat-item">
+                <span>People Benefited</span>
+                <span class="stat-value">200</span>
+            </div>
+            <div class="stat-item">
+                <span>Total Received</span>
+                <span class="stat-value">1000</span>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>NGO Dashboard</h1>
+            <div class="user-info">
+                <div class="user-avatar">ZG</div>
+                <div>
+                    <h3>ZeroGrain</h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+            <div class="dashboard-card">
+                <div class="card-icon food-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="card-content">
+                    <h3>320</h3>
+                    <p>Total Donations Received</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-card">
+                <div class="card-icon donor-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="card-content">
+                    <h3>15</h3>
+                    <p>Regular Donors</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-card">
+                <div class="card-icon people-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-content">
+                    <h3>2500</h3>
+                    <p>People Helped</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Available Donations -->
+        <div class="donations-list">
+            <h2>Recent Available Donations</h2>
+            <div class="table-container">
+                <table class="donations-table">
+                    <thead>
+                        <tr>
+                            <th>Donor Name</th>
+                            <th>Food Type</th>
+                            <th>Quantity</th>
+                            <th>Expiry</th>
+                            <th>Location</th>
+                            <th>Posted Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Thymeleaf Loop to Iterate Over Donations from Database -->
+                        <tr th:each="donation : ${donationList}">
+                            <td th:text="${donation.donorName}">Restaurant</td>
+                            <td>
+                                <span class="food-type" 
+                                      th:class="${donation.foodType == 'Cooked'} ? 'food-type type-cooked' : 
+                                              (${donation.foodType == 'Raw'} ? 'food-type type-raw' : 'food-type type-packed')"
+                                      th:text="${donation.foodType}">Type</span>
+                            </td>
+                            <td th:text="${donation.quantity} + ' kg'">10 kg</td>
+                            <td th:text="${donation.expiry}">6 hours</td>
+                            <td th:text="${donation.location}">Location</td>
+                            <td th:text="${donation.postedTime}">2 hours ago</td>
+                            <td>
+                                <button class="btn btn-accept" onclick="showAcceptModal(this)" th:data-id="${donation.id}">Accept</button>
+                            </td>
+                        </tr>
+                        
+                        <!-- Static Data for Preview (will be replaced by real data from database) -->
+                        <tr>
+                            <td>Grand Hotel</td>
+                            <td><span class="food-type type-cooked">Cooked</span></td>
+                            <td>18 kg</td>
+                            <td>4 hours</td>
+                            <td>Vijay Nagar</td>
+                            <td>30 mins ago</td>
+                            <td>
+                                <button class="btn btn-accept" onclick="showAcceptModal(this)" data-id="1">Accept</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Fresh Mart</td>
+                            <td><span class="food-type type-raw">Raw</span></td>
+                            <td>25 kg</td>
+                            <td>3 days</td>
+                            <td>MR10</td>
+                            <td>1 hour ago</td>
+                            <td>
+                                <button class="btn btn-accept" onclick="showAcceptModal(this)" data-id="2">Accept</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Spice Garden</td>
+                            <td><span class="food-type type-cooked">Cooked</span></td>
+                            <td>12 kg</td>
+                            <td>5 hours</td>
+                            <td>Sudama Nagar</td>
+                            <td>45 mins ago</td>
+                            <td>
+                                <button class="btn btn-accept" onclick="showAcceptModal(this)" data-id="3">Accept</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bakery Bliss</td>
+                            <td><span class="food-type type-packed">Packed</span></td>
+                            <td>8 kg</td>
+                            <td>2 days</td>
+                            <td>Bhawar Kuan</td>
+                            <td>2 hours ago</td>
+                            <td>
+                                <button class="btn btn-accept" onclick="showAcceptModal(this)" data-id="4">Accept</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>City Grocers</td>
+                            <td><span class="food-type type-raw">Raw</span></td>
+                            <td>30 kg</td>
+                            <td>4 days</td>
+                            <td>New Palasia</td>
+                            <td>3 hours ago</td>
+                            <td>
+                                <button class="btn btn-accept" onclick="showAcceptModal(this)" data-id="5">Accept</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Royal Restaurant</td>
+                            <td><span class="food-type type-cooked">Cooked</span></td>
+                            <td>22 kg</td>
+                            <td>6 hours</td>
+                            <td>Sapna Sangeeta</td>
+                            <td>1 hour ago</td>
+                            <td>
+                                <button class="btn btn-accept" onclick="showAcceptModal(this)" data-id="6">Accept</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Scheduled Pickups -->
+        <div class="donations-list">
+            <h2>Scheduled Pickups</h2>
+            <div class="table-container">
+                <table class="donations-table">
+                    <thead>
+                        <tr>
+                            <th>Donor Name</th>
+                            <th>Food Type</th>
+                            <th>Quantity</th>
+                            <th>Pickup Time</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Thymeleaf Loop to Iterate Over Pickups from Database -->
+                        <tr th:each="pickup : ${pickupList}">
+                            <td th:text="${pickup.donorName}">Restaurant</td>
+                            <td>
+                                <span class="food-type" 
+                                      th:class="${pickup.foodType == 'Cooked'} ? 'food-type type-cooked' : 
+                                              (${pickup.foodType == 'Raw'} ? 'food-type type-raw' : 'food-type type-packed')"
+                                      th:text="${pickup.foodType}">Type</span>
+                            </td>
+                            <td th:text="${pickup.quantity} + ' kg'">10 kg</td>
+                            <td th:text="${pickup.pickupTime}">Today, 6:00 PM</td>
+                            <td th:text="${pickup.location}">Location</td>
+                            <td th:text="${pickup.status}">Confirmed</td>
+                        </tr>
+                        
+                        <!-- Static Data for Preview (will be replaced by real data from database) -->
+                        <tr>
+                            <td>Food Express</td>
+                            <td><span class="food-type type-cooked">Cooked</span></td>
+                            <td>15 kg</td>
+                            <td>Today, 5:30 PM</td>
+                            <td>AB Road</td>
+                            <td>Confirmed</td>
+                        </tr>
+                        <tr>
+                            <td>Green Grocers</td>
+                            <td><span class="food-type type-raw">Raw</span></td>
+                            <td>20 kg</td>
+                            <td>Tomorrow, 10:00 AM</td>
+                            <td>Tilak Nagar</td>
+                            <td>Scheduled</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Acceptance Modal -->
+    <div id="acceptModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <i class="fas fa-check-circle success-icon"></i>
+            <h3>Donation Request Successful!</h3>
+            <p>Our delivery partner will connect with you soon for further details. Thank you for helping reduce food waste and feeding those in need.</p>
+            <button class="btn btn-confirm" onclick="closeModal()">Okay</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle sidebar on mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            sidebar.classList.toggle('open');
+            
+            if (sidebar.classList.contains('open')) {
+                overlay.style.display = 'block';
+            } else {
+                overlay.style.display = 'none';
+            }
+        }
+        
+        // Function to show modal when Accept button is clicked
+        function showAcceptModal(button) {
+            const donationId = button.getAttribute('data-id');
+            console.log("Accepting donation ID:", donationId);
+            
+            // In a real application, you would make an AJAX request to accept the donation
+            // For demonstration, we'll just show the modal
+            document.getElementById('acceptModal').style.display = 'flex';
+            
+            // Disable the button to prevent multiple clicks
+            button.disabled = true;
+            button.innerHTML = "Accepted";
+            button.style.backgroundColor = "#999";
+        }
+        
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('acceptModal').style.display = 'none';
+        }
+        
+        // Close modal if clicked outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('acceptModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+        
+        // Close sidebar on window resize if screen becomes larger
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                sidebar.classList.remove('open');
+                overlay.style.display = 'none';
+            }
+        });
+        
+        // Add touch gesture support for mobile sidebar
+        let touchStartX = 0;
+        let touchCurrentX = 0;
+        let sidebarTouchStarted = false;
+        
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            if (touchStartX < 20) {
+                sidebarTouchStarted = true;
+            }
+        });
+        
+        document.addEventListener('touchmove', function(e) {
+            if (!sidebarTouchStarted) return;
+            touchCurrentX = e.touches[0].clientX;
+        });
+        
+        document.addEventListener('touchend', function(e) {
+            if (!sidebarTouchStarted) return;
+            
+            const diffX = touchCurrentX - touchStartX;
+            const sidebar = document.getElementById('sidebar');
+            
+            if (diffX > 50 && !sidebar.classList.contains('open')) {
+                // Swipe right to open sidebar
+                toggleSidebar();
+            } else if (diffX < -50 && sidebar.classList.contains('open')) {
+                // Swipe left to close sidebar
+                toggleSidebar();
+            }
+            
+            sidebarTouchStarted = false;
+        });
+        
+        // Prevent body scroll when sidebar is open on mobile
+        function preventBodyScroll() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('open') && window.innerWidth <= 768) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // Update body scroll prevention when sidebar toggles
+        const originalToggleSidebar = toggleSidebar;
+        toggleSidebar = function() {
+            originalToggleSidebar();
+            preventBodyScroll();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroGrain - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin="anonymous" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style_signup.css">
+    <link rel="icon" type="image/x-icon" href="/zerograin_logo.png">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="signup-card">
+            <div class="signup-header">
+                <h1>ZeroGrain</h1>
+                <p>Create a new account</p>
+            </div>
+
+            <div class="role-selector">
+                <button class="role-btn active" onclick="switchForm('donor')">Donor</button>
+                <button class="role-btn" onclick="switchForm('ngo')">NGO</button>
+            </div>
+
+            <!-- Donor Signup Form -->
+
+            <form id="donor-form" class="signup-form active" th:action="@{/savedonor}" th:object="${donordata}"
+                method="post">
+                <div class="signup-icon donor-icon"><i class='fas fa-user-alt'></i></div>
+                <div class="form-group">
+                    <label for="donorName" class="required-field">Full Name</label>
+                    <input type="text" th:field= "*{name}" class="form-control" id="donorName" name="name" required
+                        placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="donorEmail" class="required-field">Email Address</label>
+                    <input type="email" th:field="*{email}" class="form-control" id="donorEmail" name="email" required
+                        placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label for="donorPassword" class="required-field">Password</label>
+                    <div class="password-field">
+                        <input type="password" th:field="*{password}" class="form-control" id="donorPassword" name="password"
+                            placeholder="Create a password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('donorPassword', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="donorPhone" class="required-field">Phone Number</label>
+                    <input type="tel" th:field="*{phone}" class="form-control" id="donorPhone" name="phone" required
+                        placeholder="Enter your phone number" maxlength="10">
+                </div>
+
+                <div class="form-group">
+                    <label for="donorAddress" class="required-field">Address</label>
+                    <input type="text" th:field="*{address}" class="form-control" id="donorAddress" name="address" required
+                        placeholder="Enter your address">
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="donorTerms" name="agreeToTerms" required>
+                    <label for="donorTerms" class="required-field">I agree to the <a href="#"
+                            th:href="@{/terms-and-conditions}">Terms and Conditions</a></label>
+                </div>
+
+                <button type="submit" class="btn-primary">Create Donor Account</button>
+
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" th:href="@{/login}">Login</a></p>
+                </div>
+            </form>
+
+            <!-- NGO Signup Form -->
+            <form id="ngo-form" th:action="@{/savengo}" th:object="${ngodata}" method="post"
+                class="signup-form">
+                <div class="signup-icon donor-icon"><i class="fas fa-globe" ></i></div>
+
+                <div class="form-group">
+                    <label for="ngoName" class="required-field">Organization Name</label>
+                    <input type="text" th:field="*{name}" class="form-control" id="ngoName" name="name" required
+                        placeholder="Enter organization name">
+                </div>
+
+                <div class="form-group">
+                    <label for="ngoEmail" class="required-field">Organization Email</label>
+                    <input type="email" th:field="*{email}" class="form-control" id="ngoEmail" name="email" required
+                        placeholder="Enter organization email">
+                </div>
+
+                <div class="form-group">
+                    <label for="ngoPassword" class="required-field">Password</label>
+                    <div class="password-field">
+                        <input type="password" th:field="*{password}" class="form-control" id="ngoPassword" name="password" required
+                            placeholder="Create a password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('ngoPassword', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ngoPhone" class="required-field">Organization Phone</label>
+                    <input type="tel" th:field="*{phone}" class="form-control" id="ngoPhone" name="phone" required
+                        placeholder="Enter organization phone" maxlength="10">
+                </div>
+
+                <div class="form-group">
+                    <label for="ngoAddress" class="required-field">Organization Address</label>
+                    <input type="text" th:field="*{address}" class="form-control" id="ngoAddress" name="address" required
+                        placeholder="Enter organization address">
+                </div>
+
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="ngoTerms" name="agreeToTerms" required>
+                    <label for="ngoTerms" class="required-field">I agree to the <a href="#"
+                            th:href="@{/terms-and-conditions}">Terms and Conditions</a></label>
+                </div>
+
+                <button type="submit" class="btn-primary">Register NGO</button>
+
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" th:href="@{/login}">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function switchForm(role) {
+            // Hide all forms
+            document.querySelectorAll('.signup-form').forEach(form => {
+                form.classList.remove('active');
+            });
+
+            // Deactivate all buttons
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected form
+            document.getElementById(role + '-form').classList.add('active');
+
+            // Activate selected button
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                if (btn.textContent.toLowerCase() === role) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function togglePassword(inputId, iconButton) {
+            const passwordInput = document.getElementById(inputId);
+            const iconElement = iconButton.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                iconElement.classList.remove("fa-eye");
+                iconElement.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = 'password';
+                iconElement.classList.remove("fa-eye-slash");
+                iconElement.classList.add("fa-eye");
+            }
+        }
+    </script>
+</body>
+
+</html>

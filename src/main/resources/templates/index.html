@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Grain</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="zerograin_logo.png">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <div id="wrapper1">
+        <div class="nav-content">
+            <div class="nav-container">
+                <div class="logo">Zero<span>Grain</span></div>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class='bx bx-menu'></i>
+                </button>
+                <div class="nav-links" id="nav-links">
+                    <a href="#wrapper1">Home</a>
+                    <a href="#about-us">About Us</a>
+                    <a href="#how-it-work">How It Works</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="auth-buttons">
+                <button class="btn login">
+                    <a href="login">Log in</a>
+                </button>
+                <button class="btn signup">
+                    <a href="join_ngo">Sign up</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper2">
+        <div class="wrapper2-content">
+            <div class="text">
+                <div class="text-content">
+                    <h2> The Earth Feeds Us, Let's Honor It's Gift</h2>
+                    <p>Connect food donors with NGOs to ensure excess food reaches those in need instead of landfills.
+                    </p>
+                    <div class="join-buttons">
+                        <button class="btn2 donor">
+                            <a href="join_donor">Join as Donor</a>
+                        </button>
+                        <button class="btn2 recipient">
+                            <a href="join_ngo">Join as NGOs</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="image-content">
+                <img src="zerograin_logo.png">
+            </div>
+        </div>
+    </div>
+
+    <div id="about-us">
+        <div class="about-us-content">
+            <div class="about-us-text">
+                <p>We're on a mission to reduce food waste by connecting those with surplus food to those who need it most,
+                    creating a more sustainable and equitable food system.</p>
+            </div>
+            <div class="about-us-containers">
+                <div class="container c1">
+                    <i class='bx bx-bowl-hot'></i>
+                    <h4> Reduce Food Waste</h4>
+                    <p>Approximately one-third of food produced globally is wasted. We're working to change that.</p>
+                </div>
+                <div class="container c2">
+                    <i class='bx bx-user'></i>
+                    <h4>Feed The Hungry</h4>
+                    <p>Connect surplus food with local NGOs and community organization that serve those in need</p>
+                </div>
+                <div class="container c3">
+                    <i class='bx bx-globe'></i>
+                    <h4> Environmental Impact</h4>
+                    <p>Reducing food waste means less methane emission from landfills and conservation of resources</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="how-it-work">
+        <div class="how-it-work-content">
+            <div class="how-it-work-text">
+                <h2>How It Works</h2>
+            </div>
+            <div class="how-it-work-container">
+                <div class="container2 h1">
+                    <span class="circle">1</span>
+                    <h4>Register</h4>
+                    <p>Sign up as donor (restaurant, canteen, event planner) or recipient (NGO, food bank).</p>
+                </div>
+                <div class="container2 h2">
+                    <span class="circle">2</span>
+                    <h4>Connect</h4>
+                    <p>Donors post available food, and recipient browse and request donations in area.</p>
+                </div>
+                <div class="container2 h3">
+                    <span class="circle">3</span>
+                    <h4>Distribute</h4>
+                    <p>Coordinate pickup or delivery of food to ensure it reaches those who need it most.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper3">
+        <div class="wrapper3-content">
+            <div class="wrapper3-text">
+                <h4>Ready to Make a Difference?</h4>
+                <p>Join our community of donor and recipient working together to reduce food waste and feed those in need.
+                </p>
+            </div>
+            <div class="wrapper3-btn">
+                <button class="btn3 get-started">
+                    <a href="join_donor">Get Started</a>
+                </button>
+                <button class="btn3 login">
+                    <a href="login">Log in</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="wrapper4">
+                <div class="content">
+                    <h4>Food Waste Utilization</h4>
+                    <p>Connecting donors with recipient to reduce food waste and feed those in need.</p>
+                </div>
+                <div class="quick-link">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#wrapper1">Home</a></li>
+                        <li><a href="#about-us">About us</a></li>
+                        <li><a href="#how-it-work">How it Works</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="for-user">
+                    <h4>For User</h4>
+                    <ul>
+                        <li><a href="login">Login</a></li>
+                        <li><a href="join_donor">Sign up</a></li>
+                        <li><a href="login">Donor Dashboard</a></li>
+                        <li><a href="login">Recipient Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="connect-with-us">
+                    <h4>Connect With Us</h4>
+                    <a href="#"><i class='bx bxl-facebook-circle'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-whatsapp'></i></a>
+                </div>
+            </div>
+            <hr />
+            <div class="copyright">
+                <p>&copy; 2025 Zero Grain. All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-links').classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.getElementById('nav-links');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navContainer = document.querySelector('.nav-container');
+
+            if (!navContainer.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+
+</html>
